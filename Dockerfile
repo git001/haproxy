@@ -6,10 +6,14 @@ ENV HAPROXY_MAJOR 1.6
 ENV HAPROXY_VERSION 1.6.1
 ENV HAPROXY_MD5 7343def2af8556ebc8972a9748176094
 
+# take a look at http://www.lua.org/download.html for
+# newer version
+
 ENV LUA_URL http://www.lua.org/ftp/lua-5.3.1.tar.gz
 ENV LUA_MD5 797adacada8d85761c079390ff1d9961
 
-# see http://git.haproxy.org/?p=haproxy-1.6.git;a=blob_plain;f=Makefile;hb=HEAD for some helpful navigation of the possible "make" arguments
+# see http://git.haproxy.org/?p=haproxy-1.6.git;a=blob_plain;f=Makefile;hb=HEAD
+# for some helpful navigation of the possible "make" arguments
 
 RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel' \
 	&& set -x \
