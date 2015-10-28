@@ -13,7 +13,7 @@ docker build -t my-haproxy .
 for a shell run this.
 
 ```
-docker run --rm -it --name my-running-haproxy my-haproxy /bin/bash
+docker run --rm -it --name my-running-haproxy -e HTTP_BIND_PORT=8080 -e MONITOR_BIND_PORT=8081 my-haproxy /bin/bash
 ```
 
 In the container then see thats in haproxy ;-)

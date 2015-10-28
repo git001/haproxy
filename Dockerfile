@@ -15,7 +15,7 @@ ENV LUA_MD5 797adacada8d85761c079390ff1d9961
 # see http://git.haproxy.org/?p=haproxy-1.6.git;a=blob_plain;f=Makefile;hb=HEAD
 # for some helpful navigation of the possible "make" arguments
 
-RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel' \
+RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel openssl' \
 	&& set -x \
 	&& yum -y install curl $buildDeps \
         && curl -SL ${LUA_URL} -o lua-5.3.1.tar.gz \
@@ -41,9 +41,17 @@ RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel' \
 		all \
 		install-bin \
 	&& mkdir -p /usr/local/etc/haproxy \
+        && mkdir -p /usr/local/etc/haproxy/ssl \
+        && mkdir -p /usr/local/etc/haproxy/ssl/cas \
+        && mkdir -p /usr/local/etc/haproxy/ssl/crts \
 	&& cp -R /usr/src/haproxy/examples/errorfiles /usr/local/etc/haproxy/errors \
 	&& rm -rf /usr/src/haproxy /usr/src/lua \
 	&& yum -y erase $buildDeps
 
-#CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
-CMD ["haproxy", "-vv"]
+#         && openssl dhparam -out /usr/local/etc/haproxy/ssl/dh-param_4096 4096 \
+
+COPY haproxy.conf /usr/local/etc/haproxy/haproxy.cfg
+COPY dh-param_4096 /usr/local/etc/haproxy/ssl/dh-param_4096
+
+CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
+#CMD ["haproxy", "-vv"]
