@@ -6,17 +6,21 @@ The size of the image is ~304.8 MB
 
 to build run this.
 
+```
 docker build -t my-haproxy .
+```
 
 for a shell run this.
 
+```
 docker run --rm -it --name my-running-haproxy my-haproxy /bin/bash
+```
 
 In the container then see thats in haproxy ;-)
 
+```
 haproxy -vv
 
-```
 HA-Proxy version 1.6.1 2015/10/20
 Copyright 2000-2015 Willy Tarreau <willy@haproxy.org>
 
