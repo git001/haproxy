@@ -46,7 +46,7 @@ RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel opens
         && mkdir -p /usr/local/etc/haproxy/ssl/crts \
 	&& cp -R /usr/src/haproxy/examples/errorfiles /usr/local/etc/haproxy/errors \
 	&& rm -rf /usr/src/haproxy /usr/src/lua \
-	&& yum -y erase $buildDeps \
+	&& yum -y autoremove $buildDeps \
         && yum -y clean all
 
 #         && openssl dhparam -out /usr/local/etc/haproxy/ssl/dh-param_4096 4096 \
