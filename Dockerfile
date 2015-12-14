@@ -1,10 +1,11 @@
-FROM centos:latest
+# FROM centos:latest
+FROM registry.access.redhat.com/rhel7:latest
 
-RUN yum -y update && yum -y install pcre openssl-libs zlib readline
+RUN yum -y update && yum -y install pcre openssl-libs zlib
 
 ENV HAPROXY_MAJOR 1.6
-ENV HAPROXY_VERSION 1.6.1
-ENV HAPROXY_MD5 7343def2af8556ebc8972a9748176094
+ENV HAPROXY_VERSION 1.6.2
+ENV HAPROXY_MD5 d0ebd3d123191a8136e2e5eb8aaff039
 
 # take a look at http://www.lua.org/download.html for
 # newer version
@@ -15,7 +16,7 @@ ENV LUA_MD5 797adacada8d85761c079390ff1d9961
 # see http://git.haproxy.org/?p=haproxy-1.6.git;a=blob_plain;f=Makefile;hb=HEAD
 # for some helpful navigation of the possible "make" arguments
 
-RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel openssl' \
+RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel openssl readline tar' \
 	&& set -x \
 	&& yum -y install curl $buildDeps \
         && curl -SL ${LUA_URL} -o lua-5.3.1.tar.gz \
@@ -54,5 +55,5 @@ RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel opens
 COPY haproxy.conf /usr/local/etc/haproxy/haproxy.cfg
 COPY dh-param_4096 /usr/local/etc/haproxy/ssl/dh-param_4096
 
-CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
-#CMD ["haproxy", "-vv"]
+#CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
+CMD ["haproxy", "-vv"]
