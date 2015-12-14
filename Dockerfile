@@ -16,7 +16,7 @@ ENV LUA_MD5 797adacada8d85761c079390ff1d9961
 # see http://git.haproxy.org/?p=haproxy-1.6.git;a=blob_plain;f=Makefile;hb=HEAD
 # for some helpful navigation of the possible "make" arguments
 
-RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel openssl readline tar' \
+RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel openssl tar' \
 	&& set -x \
 	&& yum -y install curl $buildDeps \
         && curl -SL ${LUA_URL} -o lua-5.3.1.tar.gz \
