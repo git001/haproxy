@@ -55,5 +55,5 @@ RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel opens
 COPY haproxy.conf /usr/local/etc/haproxy/haproxy.cfg
 COPY dh-param_4096 /usr/local/etc/haproxy/ssl/dh-param_4096
 
-#CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
-CMD ["haproxy", "-vv"]
+CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
+#CMD ["haproxy", "-vv"]
