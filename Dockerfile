@@ -1,7 +1,7 @@
 # FROM centos:latest
 FROM registry.access.redhat.com/rhel7:latest
 
-RUN yum -y update && yum -y install pcre openssl-libs zlib
+RUN yum -y update && yum -y install pcre openssl-libs zlib bind-utils
 
 ENV HAPROXY_MAJOR 1.6
 ENV HAPROXY_VERSION 1.6.2
