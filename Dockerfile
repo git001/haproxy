@@ -4,8 +4,8 @@ FROM registry.access.redhat.com/rhel7:latest
 RUN yum -y update && yum -y install pcre openssl-libs zlib bind-utils
 
 ENV HAPROXY_MAJOR 1.6
-ENV HAPROXY_VERSION 1.6.2
-ENV HAPROXY_MD5 d0ebd3d123191a8136e2e5eb8aaff039
+ENV HAPROXY_VERSION 1.6.3
+ENV HAPROXY_MD5 3362d1e268c78155c2474cb73e7f03f9
 
 # take a look at http://www.lua.org/download.html for
 # newer version
