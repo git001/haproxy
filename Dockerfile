@@ -22,7 +22,7 @@ RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel opens
 	&& set -x \
 	&& yum -y install curl $buildDeps \
 	&& mkdir -p /package \
-	&& chmod 1755 /package
+	&& chmod 1755 /package \
 	&& cd /package \
 	&& curl -SLO ${RUNIT} \
 	&& curl -SLO ${SOCKLOG} \
