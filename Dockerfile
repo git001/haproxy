@@ -17,7 +17,7 @@ ENV SOCKLOG http://smarden.org/socklog/socklog-2.1.0.tar.gz
 # see http://git.haproxy.org/?p=haproxy-1.6.git;a=blob_plain;f=Makefile;hb=HEAD
 # for some helpful navigation of the possible "make" arguments
 
-RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel openssl tar' \
+RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel openssl tar glibc-static' \
 	&& set -x \
 	&& yum -y install curl $buildDeps \
 	&& mkdir -p /package \
