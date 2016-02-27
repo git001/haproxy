@@ -22,8 +22,9 @@ ENV LUA_MD5 797adacada8d85761c079390ff1d9961
 RUN buildDeps='libpcre3-dev libssl-dev gcc make zlib1g-dev tar libreadline6-dev' \
 	&& set -x \
 	&& DEBIAN_FRONTEND="noninteractive" \
-    apt-get -y install curl $buildDeps \
-  && curl -SL ${LUA_URL} -o lua-5.3.1.tar.gz \
+    apt-get -y install curl $buildDeps
+
+RUN curl -SL ${LUA_URL} -o lua-5.3.1.tar.gz \
   && echo "${LUA_MD5} lua-5.3.1.tar.gz" | md5sum -c \
   && mkdir -p /usr/src/lua \
   && tar -xzf lua-5.3.1.tar.gz -C /usr/src/lua --strip-components=1 \
@@ -51,7 +52,7 @@ RUN buildDeps='libpcre3-dev libssl-dev gcc make zlib1g-dev tar libreadline6-dev'
   && mkdir -p /usr/local/etc/haproxy/ssl/crts \
 	&& cp -R /usr/src/haproxy/examples/errorfiles /usr/local/etc/haproxy/errors \
 	&& rm -rf /usr/src/haproxy /usr/src/lua \
-	&& apt-get -y autoremove $buildDeps \
+	&& apt-get -y autoremove \
   && apt-get -y clean all \
 	&& rm -rf /var/lib/{apt,dpkg,cache,log}/
 
