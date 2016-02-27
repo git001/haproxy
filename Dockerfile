@@ -5,7 +5,7 @@ FROM debian:jessie
 
 RUN apt-get -y update \
     && DEBIAN_FRONTEND="noninteractive" \
-		   apt-get -y install pcre openssl-libs zlib socklog-run
+		   apt-get -y install libpcre3 libssl1.0.0 zlib1g socklog-run
 
 # take a look at http://www.lua.org/download.html for
 # newer version
@@ -19,7 +19,7 @@ ENV LUA_MD5 797adacada8d85761c079390ff1d9961
 # see http://git.haproxy.org/?p=haproxy-1.6.git;a=blob_plain;f=Makefile;hb=HEAD
 # for some helpful navigation of the possible "make" arguments
 
-RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel openssl tar' \
+RUN buildDeps='libpcre3-dev libssl-dev gcc make zlib1g-dev tar' \
 	&& set -x \
 	&& DEBIAN_FRONTEND="noninteractive" \
     apt-get -y install curl $buildDeps \
