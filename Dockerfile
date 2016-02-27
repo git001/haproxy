@@ -2,7 +2,7 @@ FROM centos:latest
 # FROM registry.access.redhat.com/rhel7:latest
 
 RUN curl -sLo /etc/yum.repos.d/rsyslog.repo http://rpms.adiscon.com/v8-stable/rsyslog.repo
-RUN yum -y update && yum -y install pcre openssl-libs zlib bind-utils rsyslog
+RUN yum -y update && yum -y install pcre openssl-libs zlib bind-utils rsyslog gettext
 
 # take a look at http://www.lua.org/download.html for
 # newer version
@@ -58,5 +58,5 @@ RUN curl -SL ${LUA_URL} -o lua-5.3.1.tar.gz \
 
 COPY containerfiles /
 
-CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
+CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.conf"]
 #CMD ["haproxy", "-vv"]
