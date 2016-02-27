@@ -6,14 +6,13 @@ RUN yum -y update && yum -y install pcre openssl-libs zlib bind-utils
 # take a look at http://www.lua.org/download.html for
 # newer version
 
-ENV HAPROXY_MAJOR 1.6 \
-    HAPROXY_VERSION 1.6.3 \
-    HAPROXY_MD5 3362d1e268c78155c2474cb73e7f03f9 \
-    LUA_URL http://www.lua.org/ftp/lua-5.3.1.tar.gz \
-	  LUA_MD5 797adacada8d85761c079390ff1d9961 \
-		RUNIT http://smarden.org/runit/runit-2.1.2.tar.gz \
-		SOCKLOG http://smarden.org/socklog/socklog-2.1.0.tar.gz
-
+ENV HAPROXY_MAJOR 1.6
+ENV HAPROXY_VERSION 1.6.3
+ENV HAPROXY_MD5 3362d1e268c78155c2474cb73e7f03f9
+ENV LUA_URL http://www.lua.org/ftp/lua-5.3.1.tar.gz
+ENV LUA_MD5 797adacada8d85761c079390ff1d9961
+ENV RUNIT http://smarden.org/runit/runit-2.1.2.tar.gz
+ENV SOCKLOG http://smarden.org/socklog/socklog-2.1.0.tar.gz
 
 # see http://git.haproxy.org/?p=haproxy-1.6.git;a=blob_plain;f=Makefile;hb=HEAD
 # for some helpful navigation of the possible "make" arguments
