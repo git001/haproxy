@@ -51,8 +51,8 @@ RUN buildDeps='libpcre3-dev libssl-dev gcc make zlib1g-dev tar libreadline6-dev'
   && mkdir -p /usr/local/etc/haproxy/ssl/crts \
 	&& cp -R /usr/src/haproxy/examples/errorfiles /usr/local/etc/haproxy/errors \
 	&& rm -rf /usr/src/haproxy /usr/src/lua \
-	&& yum -y autoremove $buildDeps \
-  && yum -y clean all \
+	&& apt-get -y autoremove $buildDeps \
+  && apt-get -y clean all \
 	&& rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 #         && openssl dhparam -out /usr/local/etc/haproxy/ssl/dh-param_4096 4096 \
