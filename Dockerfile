@@ -56,8 +56,7 @@ RUN curl -SL ${LUA_URL} -o lua-5.3.1.tar.gz \
 
 #         && openssl dhparam -out /usr/local/etc/haproxy/ssl/dh-param_4096 4096 \
 
-COPY haproxy.conf /usr/local/etc/haproxy/haproxy.cfg
-COPY dh-param_4096 /usr/local/etc/haproxy/ssl/dh-param_4096
+COPY containerfiles /
 
 CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.cfg"]
 #CMD ["haproxy", "-vv"]
