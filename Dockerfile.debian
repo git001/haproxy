@@ -1,8 +1,11 @@
-FROM centos:latest
+FROM debian:jessie
+# no rpms for socklog available
+# FROM centos:latest
 # FROM registry.access.redhat.com/rhel7:latest
 
-RUN curl -sLo /etc/yum.repos.d/rsyslog.repo http://rpms.adiscon.com/v8-stable/rsyslog.repo
-RUN yum -y update && yum -y install pcre openssl-libs zlib bind-utils rsyslog
+RUN apt-get -y update \
+    && DEBIAN_FRONTEND="noninteractive" \
+		   apt-get -y install libpcre3 libssl1.0.0 zlib1g socklog-run libreadline6
 
 # take a look at http://www.lua.org/download.html for
 # newer version
@@ -13,15 +16,13 @@ ENV HAPROXY_MD5 3362d1e268c78155c2474cb73e7f03f9
 ENV LUA_URL http://www.lua.org/ftp/lua-5.3.1.tar.gz
 ENV LUA_MD5 797adacada8d85761c079390ff1d9961
 
-# RUN cat /etc/redhat-release
-# RUN yum provides "*lib*/libc.a"
-
 # see http://git.haproxy.org/?p=haproxy-1.6.git;a=blob_plain;f=Makefile;hb=HEAD
 # for some helpful navigation of the possible "make" arguments
 
-RUN buildDeps='pcre-devel openssl-devel gcc make zlib-devel readline-devel openssl tar' \
+RUN buildDeps='libpcre3-dev libssl-dev gcc make zlib1g-dev tar libreadline6-dev' \
 	&& set -x \
-	&& yum -y install curl $buildDeps
+	&& DEBIAN_FRONTEND="noninteractive" \
+    apt-get -y install curl $buildDeps
 
 RUN curl -SL ${LUA_URL} -o lua-5.3.1.tar.gz \
   && echo "${LUA_MD5} lua-5.3.1.tar.gz" | md5sum -c \
@@ -51,8 +52,9 @@ RUN curl -SL ${LUA_URL} -o lua-5.3.1.tar.gz \
   && mkdir -p /usr/local/etc/haproxy/ssl/crts \
 	&& cp -R /usr/src/haproxy/examples/errorfiles /usr/local/etc/haproxy/errors \
 	&& rm -rf /usr/src/haproxy /usr/src/lua \
-	&& yum -y autoremove $buildDeps \
-  && yum -y clean all
+	&& apt-get -y autoremove  \
+  && apt-get -y clean all \
+	&& rm -rf /var/lib/{apt,dpkg,cache,log}/
 
 #         && openssl dhparam -out /usr/local/etc/haproxy/ssl/dh-param_4096 4096 \
 
