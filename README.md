@@ -1,3 +1,4 @@
+
 # Haproxy with lua on centos:latest
 
 Thanks to https://hub.docker.com/_/haproxy/ for the base docker file
@@ -64,3 +65,23 @@ oc new-project haproxy-test
 oc create -f haproxy-osev3.yaml  
 oc expose svc haproxy-test  
 oc get pods  
+
+To get the haproxy logs you must select the socklog container
+oc logs -f -c ng-socklog <YOUR_POD>
+
+a log enty looks like this.
+
+```
+[al@localhost haproxy]$ oc logs -f -c hx-socklog haproxy-test-5-6yiyp
+listening on 0.0.0.0:8514, starting.
+10.1.4.1: local0.notice: Feb 28 10:08:54 haproxy[1]: Proxy http-in started.
+10.1.4.1: local0.notice: Feb 28 10:08:54 haproxy[1]: Proxy google started.
+10.1.4.1: local0.info: Feb 28 10:11:40 haproxy[1]: Connect from 10.1.2.1:43700 to 10.1.4.77:8080 (http-in/HTTP)
+```
+
+# TODOs for a real setup
+- clone this repo
+- copy your config and adopt it to the Openshift setup
+- copy your document root
+- if you need persistentvolumes for uploaded files or so adopt the mount path in your app config
+- I'm sure there are lot more TODOs ;-)
