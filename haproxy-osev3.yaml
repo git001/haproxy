@@ -1,10 +1,35 @@
 apiVersion: v1
 items:
 - apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: Aleksandar_Lazic
+    creationTimestamp: null
+    labels:
+      app: haproxy-test
+    name: centos
+  spec:
+    dockerImageRepository: centos
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: Aleksandar_Lazic
+    creationTimestamp: null
+    labels:
+      app: haproxy-test
+    name: haproxy-test
+  spec: {}
+  status:
+    dockerImageRepository: ""
+- apiVersion: v1
   kind: BuildConfig
   metadata:
     annotations:
-      openshift.io/generated-by: OpenShiftNewApp
+      openshift.io/generated-by: Aleksandar_Lazic
     creationTimestamp: null
     labels:
       app: haproxy-test
@@ -14,10 +39,12 @@ items:
       to:
         kind: ImageStreamTag
         name: haproxy-test:latest
+    postCommit: {}
     resources: {}
     source:
       git:
         uri: https://github.com/git001/haproxy.git
+      secrets: []
       type: Git
     strategy:
       dockerStrategy:
@@ -27,10 +54,10 @@ items:
       type: Docker
     triggers:
     - github:
-        secret: j_1Pjq4_zU8gAgE7yX_m
+        secret: NAYWj7reurv5q2EVBEyU
       type: GitHub
     - generic:
-        secret: 4-H9wj7LHYrJCd6uXHSO
+        secret: USpK2sGw0tgxI08WFycA
       type: Generic
     - type: ConfigChange
     - imageChange: {}
@@ -38,57 +65,11 @@ items:
   status:
     lastVersion: 0
 - apiVersion: v1
-  kind: Build
-  metadata:
-    labels:
-      app: haproxy-test
-      buildconfig: haproxy-test
-      openshift.io/build-config.name: haproxy-test
-    name: haproxy-test-1
-  spec:
-    output:
-      to:
-        kind: ImageStreamTag
-        name: haproxy-test:latest
-    resources: {}
-    serviceAccount: builder
-    source:
-      git:
-        uri: https://github.com/git001/haproxy.git
-      type: Git
-    strategy:
-      dockerStrategy:
-        from:
-          kind: DockerImage
-          name: centos:latest
-      type: Docker
-- apiVersion: v1
-  kind: ImageStream
-  metadata:
-    labels:
-      app: haproxy-test
-    name: centos
-  spec:
-    dockerImageRepository: library/centos
-  status:
-    dockerImageRepository: ""
-- apiVersion: v1
-  kind: ImageStream
-  metadata:
-    labels:
-      app: haproxy-test
-    name: haproxy-test
-  spec:
-    tags:
-    - from:
-        kind: DockerImage
-        name: haproxy-test:latest
-      name: latest
-  status:
-    dockerImageRepository: ""
-- apiVersion: v1
   kind: DeploymentConfig
   metadata:
+    annotations:
+      openshift.io/generated-by: Aleksandar_Lazic
+    creationTimestamp: null
     labels:
       app: haproxy-test
     name: haproxy-test
@@ -99,61 +80,82 @@ items:
       deploymentconfig: haproxy-test
     strategy:
       resources: {}
-      rollingParams:
-        intervalSeconds: 1
-        maxSurge: 25%
-        maxUnavailable: 25%
-        timeoutSeconds: 600
-        updatePeriodSeconds: 1
-      type: Rolling
     template:
       metadata:
+        annotations:
+          openshift.io/generated-by: Aleksandar_Lazic
+        creationTimestamp: null
         labels:
           app: haproxy-test
           deploymentconfig: haproxy-test
       spec:
         containers:
-        - command:
-          - /rsyslogd-wrapper.sh
+        - name: hx-socklog
+          image: haproxy-test:latest
+          command:
+           - /usr/sbin/socklog
+           - inet
+           - "0"
+           - $(SYSLOG_PORT)
           env:
           - name: SYSLOG_PORT
             value: "8514"
-          image: haproxy-test:latest
-          imagePullPolicy: Always
-          name: rsyslog
           ports:
           - containerPort: 8514
             protocol: UDP
-          resources: {}
-          terminationMessagePath: /dev/termination-log
-        - command:
-          - /usr/local/sbin/haproxy
-          - -f
-          - /usr/local/etc/haproxy/haproxy.conf
+        - name: haproxy-test
+          image: haproxy-test:latest
           env:
           - name: HTTP_BIND_PORT
             value: "8080"
           - name: MONITOR_BIND_PORT
             value: "9120"
-          image: haproxy-test:latest
-          imagePullPolicy: Always
-          name: haproxy-test
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          - containerPort: 8443
+            protocol: TCP
           resources: {}
-          terminationMessagePath: /dev/termination-log
-        dnsPolicy: ClusterFirst
-        restartPolicy: Always
-        securityContext: {}
-        terminationGracePeriodSeconds: 30
+    test: false
     triggers:
     - type: ConfigChange
     - imageChangeParams:
         automatic: true
         containerNames:
         - haproxy-test
+        - hx-socklog
         from:
           kind: ImageStreamTag
           name: haproxy-test:latest
       type: ImageChange
   status: {}
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      openshift.io/generated-by: Aleksandar_Lazic
+    creationTimestamp: null
+    labels:
+      app: haproxy-test
+    name: haproxy-test
+  spec:
+    ports:
+    - name: 8080-tcp
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: 8443-tcp
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    - name: 8514-tcp
+      port: 8514
+      protocol: UDP
+      targetPort: 8514
+    selector:
+      app: haproxy-test
+      deploymentconfig: haproxy-test
+  status:
+    loadBalancer: {}
 kind: List
 metadata: {}

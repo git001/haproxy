@@ -1,8 +1,10 @@
-Haproxy with lua on centos:latest
+# Haproxy with lua on centos:latest
 
 Thanks to https://hub.docker.com/_/haproxy/ for the base docker file
 
 The size of the image is ~280 MB
+
+# Docker
 
 to build run this.
 
@@ -56,3 +58,9 @@ Total: 3 (3 usable), will use epoll.
 
 that's cool ;-)
 
+# OpenShift
+
+oc new-project haproxy-test  
+oc create -f haproxy-osev3.yaml  
+oc expose svc haproxy-test  
+oc get pods  
