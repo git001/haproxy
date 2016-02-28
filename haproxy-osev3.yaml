@@ -93,7 +93,7 @@ items:
         - name: hx-socklog
           image: haproxy-test:latest
           command:
-           - /usr/sbin/socklog
+           - /usr/local/bin/socklog
            - inet
            - "0"
            - $(SYSLOG_PORT)
