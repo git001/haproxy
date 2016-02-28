@@ -3,7 +3,7 @@
 
 Thanks to https://hub.docker.com/_/haproxy/ for the base docker file
 
-The size of the image is ~280 MB
+The size of the image is ~360 MB
 
 # Docker
 
@@ -24,7 +24,7 @@ In the container then see thats in haproxy ;-)
 ```
 haproxy -vv
 
-HA-Proxy version 1.6.1 2015/10/20
+HA-Proxy version 1.6.3 2015/12/25
 Copyright 2000-2015 Willy Tarreau <willy@haproxy.org>
 
 Build options :
@@ -47,7 +47,7 @@ OpenSSL library supports SNI : yes
 OpenSSL library supports prefer-server-ciphers : yes
 Built with PCRE version : 8.32 2012-11-30
 PCRE library supports JIT : yes
-Built with Lua version : Lua 5.3.1
+Built with Lua version : Lua 5.3.2
 Built with transparent proxy support using: IP_TRANSPARENT IPV6_TRANSPARENT IP_FREEBIND
 
 Available polling systems :
@@ -66,8 +66,8 @@ oc create -f haproxy-osev3.yaml
 oc expose svc haproxy-test  
 oc get pods  
 
-To get the haproxy logs you must select the socklog container
-oc logs -f -c ng-socklog <YOUR_POD>
+To get the haproxy logs you must select the socklog container  
+oc logs -f -c ng-socklog `<YOUR_POD>`
 
 a log enty looks like this.
 
