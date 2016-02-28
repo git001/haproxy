@@ -1,8 +1,0 @@
-global(net.ipprotocol="ipv4-only")
-
-# stdout log
-module(load="imudp") # needs to be done just once
-input(type="imudp" port="${SYSLOG_PORT}")
-
-*.* action(type="omfile" dirCreateMode="0700" FileCreateMode="0644"
-       File="/dev/stdout")
