@@ -82,6 +82,4 @@ listening on 0.0.0.0:8514, starting.
 # TODOs for a real setup
 - clone this repo
 - copy your config and adopt it to the Openshift setup
-- copy your document root
-- if you need persistentvolumes for uploaded files or so adopt the mount path in your app config
 - I'm sure there are lot more TODOs ;-)
