@@ -1,5 +1,5 @@
-FROM centos:latest
-# FROM registry.access.redhat.com/rhel7:latest
+# FROM centos:latest
+FROM registry.access.redhat.com/rhel7:latest
 
 RUN yum -y update && yum -y install pcre openssl-libs zlib bind-utils
 
