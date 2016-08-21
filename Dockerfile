@@ -20,7 +20,7 @@ ENV HAPROXY_MAJOR=1.6 \
 
 RUN set -x \
   && yum -y update \
-  && yum -y install pcre openssl-libs zlib bind-utils curl ${buildDeps} \
+  && yum -y install pcre openssl-libs zlib bind-utils curl socat ${buildDeps} \
   && curl -SL ${LUA_URL} -o lua-${LUA_VERSION}.tar.gz \
   && echo "${LUA_MD5} lua-${LUA_VERSION}.tar.gz" | md5sum -c \
   && mkdir -p /usr/src/lua \
