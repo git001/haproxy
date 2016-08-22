@@ -56,5 +56,7 @@ RUN set -x \
 
 COPY containerfiles /
 
+EXPOSE 13443/tcp
+
 CMD ["haproxy", "-f", "/usr/local/etc/haproxy/haproxy.conf"]
 #CMD ["haproxy", "-vv"]
